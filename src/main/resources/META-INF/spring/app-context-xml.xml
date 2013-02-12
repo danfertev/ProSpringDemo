@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="messageRenderer" class="ru.anfdenis.prospring3.ch4.xml.StandartOutMessageRenderer">
+        <property name="messageProvider" ref="messageProvider"/>
+    </bean>
+
+    <bean id="messageProvider" class="ru.anfdenis.prospring3.ch4.xml.HelloWorldMessageProvider"/>
+
+    <bean id="configurableMessageProvider" class="ru.anfdenis.prospring3.ch4.xml.ConfigurableMessageProvider">
+        <constructor-arg value="Tis is a configurable message"/>
+    </bean>
+
+    <!--<bean id="constructorConfusion" class="ru.anfdenis.prospring3.ch4.xml.ConstructorConfusion">-->
+    <!--<constructor-arg type="java.lang.String" value="90">-->
+    <!--</constructor-arg>-->
+    <!--</bean>-->
+
+    <bean id="injectSimple" class="ru.anfdenis.prospring3.ch4.xml.InjectSimple">
+        <property name="name" value="John Smith"/>
+        <property name="age" value="35"/>
+        <property name="height" value="1.78"/>
+        <property name="programmer" value="true"/>
+        <property name="ageInSeconds" value="1340071340987"/>
+    </bean>
+
+    <bean id="injectSimpleConfig" class="ru.anfdenis.prospring3.ch4.xml.InjectSimpleConfig"/>
+
+    <bean id="injectSimpleSpel" class="ru.anfdenis.prospring3.ch4.xml.InjectSimpleSpel">
+        <property name="name" value="#{injectSimpleConfig.name}"/>
+        <property name="age" value="#{injectSimpleConfig.age + 1}"/>
+        <property name="height" value="#{injectSimpleConfig.height}"/>
+        <property name="programmer" value="#{injectSimpleConfig.programmer}"/>
+        <property name="ageInSeconds" value="#{injectSimpleConfig.ageInSeconds}"/>
+    </bean>
+
+    <bean id="oracle" class="ru.anfdenis.prospring3.ch4.BookwormOracle"/>
+
+    <bean id="injectRef" class="ru.anfdenis.prospring3.ch4.xml.InjectRef">
+        <property name="oracle" ref="oracle"/>
+    </bean>
+
+    <!-- <bean id="target1" class="ru.anfdenis.prospring3.ch4.SimpleTarget">
+         <property name="val" ref="injectBeanParent"/>
+     </bean>
+
+     <bean id="target2" class="ru.anfdenis.prospring3.ch4.SimpleTarget">
+         <property name="val" ref="injectBean"/>
+     </bean>
+
+     <bean id="target3" class="ru.anfdenis.prospring3.ch4.SimpleTarget">
+         <property name="val">
+             <ref parent="injectBean"/>
+         </property>
+     </bean>-->
+
+    <bean id="injectBean" class="java.lang.String">
+        <constructor-arg value="Bean In Child"/>
+    </bean>
+
+    <bean id="collectionInjection" class="ru.anfdenis.prospring3.ch4.xml.CollectionInjection">
+        <property name="map">
+            <map>
+                <entry key="someValue" value="Hello World!"/>
+                <entry key="someBean" value-ref="oracle"/>
+            </map>
+        </property>
+        <property name="props">
+            <props>
+                <prop key="firstName">Clarence</prop>
+                <prop key="secondName">Ho</prop>
+            </props>
+        </property>
+        <property name="set">
+            <set>
+                <value>Hello World!</value>
+                <ref local="oracle"/>
+            </set>
+        </property>
+        <property name="list">
+            <list>
+                <value>Hello World!</value>
+                <ref local="oracle"/>
+            </list>
+        </property>
+    </bean>
+</beans>
